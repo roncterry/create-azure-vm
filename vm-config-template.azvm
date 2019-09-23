@@ -1,0 +1,185 @@
+
+# The region in which the VM will be created
+#
+# Default: westus
+#
+REIGON=""
+
+
+# Resource Group in which to create the VM
+#
+# No default. This is a required value.
+#
+RESOURCE_GROUP=""
+
+
+# OS Type running the VM
+#
+# Options: linux, windows
+#
+# Default: linux
+#
+OS_TYPE=""
+
+
+# The name of the VM
+#
+# Default: MyVM
+#
+VM_NAME=""
+
+
+# VM size to use when creating the VM
+#
+# Common Options: 
+#     Standard_D2s_v3  (2 VCPU / 8GB RAM)
+#     Standard_D4s_v3  (4 VCPU / 16GB RAM)
+#     Standard_D8s_v3  (8 VCPU / 32GB RAM)
+#     Standard_D16s_v3 (16 VCPU / 64GB RAM)
+#     Standard_D32s_v3 (32 VCPU / 128GB RAM)
+#     Standard_D48s_v3 (48 VCPU / 192GB RAM)
+#     Standard_D64s_v3 (64 VCPU / 256GB RAM)
+#
+# Default: Standard_D4s_v3
+#
+VM_SIZE=""
+
+
+# Source image for the VM
+#
+# This is the image used to create the VM. This can be found in the 
+# blobUri field fo the image.
+#
+# No default. This is a required value.
+#
+SOURCE_IMAGE=""
+
+
+# Size of the VM's disk image file
+#
+# This is the size of the disk image created for the VM (from the SOURCE_IMAGE).
+# It is created in the storage container named STORAGE_CONTAINER_NAME.
+#
+# This value is in gigabytes and only the integer value is required.
+#
+# If left empty the OS disk size will be the same as the SOURCE_IMAGE.
+#
+# Example for a 1TB disk: 1024
+#
+VM_DISK_SIZE=""
+
+
+# Create the OS disk as an ephemeral disk on the compute host.
+#
+# If set to TRUE then the OS disk is created on the compute host. This can 
+# improvide local disk performance and faster VM/VMSS reimage times.
+#
+# If you are createing a new VM and want to keep the image in your image library
+# then set this to FALSE.
+#
+# If in doubt, use FALSE.
+#
+# Options: TRUE,FALSE
+#
+# Default: FALSE
+#
+EPHEMERAL_OS_DISK="false"
+
+
+# Storage account where new disk will be created
+#
+# No default. If not using a ephemeral disk this is a required value.
+#
+STORAGE_ACCOUNT=""
+
+
+# Name of Storage Container
+#
+# The name of the storage container in which to create the new disk image (vhd) 
+# file (when not using epeheral disks). 
+#
+# Default: vhds
+#
+STORAGE_CONTAINER_NAME=""
+
+
+# Authentication type used
+#
+# This is the authentication types ues to access the VM.
+#
+# Options: password, ssh, all
+#
+# password - requires ADMIN_USERNAME and ADMIN_PASSWORD to be set
+# ssh - requires ADMIN_USERNAME to to be set and a public key value to be set 
+#       in SSH_KEY_LIST
+# all - requires ADMIN_USERNAME and ADMIN_PASSWORD to be set and a public ssh 
+#       key value to be set in SSH_KEY_LIST
+#
+#
+# Default: password
+#
+AUTH_TYPE="password"
+
+
+# Username of the admin user in the VM
+#
+# This is the suer who's password will be set using the AMDIN_PASSWORD and will
+# have SSH keys added to their ~/.ssh/authorized_keys file if set.
+#
+# This is the user you will log inot the VM as.
+#
+# Default: tux
+#
+ADMIN_USERNAME=""
+
+
+# Password for the admin user
+#
+# This is the password that will be set for the admin user if AUTH_TYPE is set 
+# to password or all.
+#
+# Default: d3faul7P@s5w0rd
+#
+ADMIN_PASSWORD=""
+
+
+# List of SSH private keys to add for the admin user
+#
+# This is a list of SSH public keys to append to the admin user's 
+# ~/.ssh/authorized_keys file.
+#
+# This will be used if AUTH_TYPE is set ot ssh or all.
+#
+SSH_KEY_LIST=""
+
+
+# Enable RDP access to Linux VMs
+#
+# This only applys to Linux VMs.
+#
+# By default RDP is enabled by default for Windows VMs so changing this value for Windows VMs will have no effect. 
+#
+ENABLE_RDP="true"
+
+
+# Enable SSH access to Windows VMs
+#
+# This only applys to Windows VMs.
+#
+# By default SSH is enabled by default for Linux VMs so changing this value for Linux VMs will have no effect.
+#
+ENABLE_SSH="false"
+
+
+# Additional ports to open
+#
+# Space delimited list of additional ports to open.
+#
+ADDITIONAL_OPEN_PORTS=""
+
+
+# Additional CLI arguments
+#
+# Any additional CLI arguments can be listed here.
+#
+ADDITIONAL_CLI_ARGS=""
