@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Version: 0.0.1
-# Date: 2019-09-20
+# Version: 1.0.0
+# Date: 2020-05-21
 
 ######### Default Values #################
 DEFAULT_CLI_ARGS="--use-unmanaged-disk"
@@ -72,7 +72,7 @@ get_cli_args() {
   then
     CLI_ARGS="${CLI_ARGS} --resource-group ${RESOURCE_GROUP}"
   else
-    echo -e "${RED}ERROR: You must provide a resource group for the new VM. Exiting${NC}"
+    echo -e "${RED}ERROR: You must provide a resource group for the new VM. Exiting.${NC}"
     echo
     exit 1
   fi
@@ -233,7 +233,7 @@ open_additional_ports() {
     for PORT in ${ADDITIONAL_OPEN_PORTS}
     do
       echo -e "${LTGREEN}COMMAND: ${GRAY}az vm open-port --resource-group ${RESOURCE_GROUP} --name ${VM_NAME} --port ${PORT}${NC}"
-      az vm open-port --resource-group ${RESOURCE_GROUP} --name ${VM_NAME} --port ${PORT} > /dev/null
+      az vm open-port --resource-group ${RESOURCE_GROUP} --name ${VM_NAME} --port ${PORT} > /dev/null 2>&1
     done
     echo
   fi
@@ -252,7 +252,7 @@ main() {
 
   TMP_OUTPUT_FILE="/tmp/create-azure-vm.output.$$"
   echo -e "${LTGREEN}COMMAND: ${GRAY}az vm create ${CLI_ARGS}${NC}"
-  az vm create ${CLI_ARGS} > ${TMP_OUTPUT_FILE}
+  az vm create ${CLI_ARGS} > ${TMP_OUTPUT_FILE} 2> /dev/null
   echo
 
   if [ -e ${TMP_OUTPUT_FILE} ]
@@ -309,5 +309,5 @@ main() {
 
 ############################################################################
 
-main
+main ${*}
 
