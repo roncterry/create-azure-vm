@@ -13,6 +13,33 @@ REIGON=""
 RESOURCE_GROUP=""
 
 
+# Storage account where new disk will be created
+#
+# No default. If not using a ephemeral disk this is a required value.
+#
+STORAGE_ACCOUNT=""
+
+
+# Name of Storage Container
+#
+# The name of the storage container in which to create the new disk image (vhd) 
+# file (when not using epeheral disks). 
+#
+# Default: vhds
+#
+STORAGE_CONTAINER_NAME=""
+
+
+# Source image for the VM
+#
+# This is the image used to create the VM. This can be found in the 
+# blobUri field fo the image.
+#
+# No default. This is a required value.
+#
+SOURCE_IMAGE=""
+
+
 # OS Type running the VM
 #
 # Options: linux, windows
@@ -45,16 +72,6 @@ VM_NAME=""
 VM_SIZE=""
 
 
-# Source image for the VM
-#
-# This is the image used to create the VM. This can be found in the 
-# blobUri field fo the image.
-#
-# No default. This is a required value.
-#
-SOURCE_IMAGE=""
-
-
 # Size of the VM's disk image file
 #
 # This is the size of the disk image created for the VM (from the SOURCE_IMAGE).
@@ -84,23 +101,6 @@ VM_DISK_SIZE=""
 # Default: FALSE
 #
 EPHEMERAL_OS_DISK="false"
-
-
-# Storage account where new disk will be created
-#
-# No default. If not using a ephemeral disk this is a required value.
-#
-STORAGE_ACCOUNT=""
-
-
-# Name of Storage Container
-#
-# The name of the storage container in which to create the new disk image (vhd) 
-# file (when not using epeheral disks). 
-#
-# Default: vhds
-#
-STORAGE_CONTAINER_NAME=""
 
 
 # Authentication type used
