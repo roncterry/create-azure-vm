@@ -3,7 +3,7 @@
 #
 # Default: westus
 #
-REIGON=""
+REGION=""
 
 
 # Resource Group in which to create the VM
@@ -15,7 +15,7 @@ RESOURCE_GROUP=""
 
 # Storage account where new disk will be created
 #
-# No default. If not using a ephemeral disk this is a required value.
+# No default. If not using an ephemeral disk this is a required value.
 #
 STORAGE_ACCOUNT=""
 
@@ -23,21 +23,36 @@ STORAGE_ACCOUNT=""
 # Name of Storage Container
 #
 # The name of the storage container in which to create the new disk image (vhd) 
-# file (when not using epeheral disks). 
+# file (when not using ephemeral disks). 
 #
 # Default: vhds
 #
 STORAGE_CONTAINER_NAME=""
 
 
-# Source image for the VM
+# Source image file for the VM
 #
-# This is the image used to create the VM. This can be found in the 
-# blobUri field fo the image.
+# This is the vhd image file used to create the VM. This value is 
+# used in the SOURCE_IMAGE_URI variable below.
 #
 # No default. This is a required value.
 #
-SOURCE_IMAGE=""
+SOURCE_IMAGE_FILE=""
+
+
+# Source image URI for the VM
+#
+# This is the URI to the image used to create the VM. 
+# This is constriucted using the following variable above:
+#  STORAGE_ACCOUNT
+#  STORAGE_CONTAINER_NAME
+#  SOURCE_IMAGE_FILE
+#
+# FYI, This can also be found in the blobUri field of the image.
+#
+# No default. This is a required value.
+#
+SOURCE_IMAGE_URI="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${STORAGE_CONTAINER_NAME}/${SOURCE_IMAGE_FILE}"
 
 
 # OS Type running the VM
@@ -94,9 +109,9 @@ VM_DISK_SIZE=""
 # If you are createing a new VM and want to keep the image in your image library
 # then set this to FALSE.
 #
-# If in doubt, use FALSE.
-#
 # Options: TRUE,FALSE
+#
+# If in doubt, use FALSE.
 #
 # Default: FALSE
 #

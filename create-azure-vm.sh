@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Version: 1.0.0
-# Date: 2020-05-21
+# Version: 1.1.0
+# Date: 2020-07-17
 
 ######### Default Values #################
 DEFAULT_CLI_ARGS="--use-unmanaged-disk"
@@ -101,9 +101,9 @@ get_cli_args() {
     CLI_ARGS="${CLI_ARGS} --size ${DEFAULT_SIZE}"
   fi
 
-  if ! [ -z ${SOURCE_IMAGE} ]
+  if ! [ -z ${SOURCE_IMAGE_URI} ]
   then
-    CLI_ARGS="${CLI_ARGS} --image ${SOURCE_IMAGE}"
+    CLI_ARGS="${CLI_ARGS} --image ${SOURCE_IMAGE_URI}"
   else
     echo -e " ${RED}ERROR: You must provide a source image. Exiting${NC}"
     echo
