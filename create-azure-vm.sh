@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Version: 1.1.0
-# Date: 2020-07-17
+# Version: 1.1.1
+# Date: 2020-09-08
 
 ######### Default Values #################
 DEFAULT_CLI_ARGS="--use-unmanaged-disk"
@@ -93,9 +93,9 @@ get_cli_args() {
     CLI_ARGS="${CLI_ARGS} --name ${DEFAULT_VM_NAME}"
   fi
 
-  if ! [ -z ${SIZE} ]
+  if ! [ -z ${VM_SIZE} ]
   then
-    CLI_ARGS="${CLI_ARGS} --size ${SIZE}"
+    CLI_ARGS="${CLI_ARGS} --size ${VM_SIZE}"
   else
     SIZE=${DEFAULT_SIZE}
     CLI_ARGS="${CLI_ARGS} --size ${DEFAULT_SIZE}"
