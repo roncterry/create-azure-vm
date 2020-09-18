@@ -1,6 +1,6 @@
 # Introduction
 
-The tools in this project help toy yo more easily create and delete VMs in Azure. The commands are wrappers around the `az` command and use individual VM configuration files that define what the VM should be like in Azure. It requires and existing source disk image file (.vhd) to use as  a template disk image for the newly created VM. The new VM's disk image file will reside in a Container (Blob storage) in an Azure Storage Account.
+The tools in this project help you yo more easily create and delete VMs in Azure. The commands are wrappers around the `az` command and use individual VM configuration files that define what the VM should be like in Azure. It requires and existing source disk image file (.vhd) to use as  a template disk image for the newly created VM. The new VM's disk image file will reside in a Container (Blob storage) in an Azure Storage Account.
 
 Additional tools that are useful to use in conjunction with these tools (also defined in the **https://github.com/roncterry/azure-course-tools** git repository).
 
