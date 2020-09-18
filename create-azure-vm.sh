@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Version: 1.1.1
-# Date: 2020-09-08
+# Version: 1.1.2
+# Date: 2020-09-16
 
 ######### Default Values #################
 DEFAULT_CLI_ARGS="--use-unmanaged-disk"
@@ -245,7 +245,7 @@ main() {
   get_cli_args $*
   echo 
   echo -e "${LTBLUE}=======================================================================${NC}"
-  echo -e "${LTBLUE}                Creating Azure VM ${GRAY}${VM_NAME}"
+  echo -e "${LTBLUE}                Creating Azure VM ${GRAY}${VM_NAME}${NC}"
   echo -e "${LTBLUE}=======================================================================${NC}"
   echo
   echo -e "${LTBLUE}Creating VM:${NC}"
