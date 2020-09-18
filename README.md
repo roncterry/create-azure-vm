@@ -1,6 +1,6 @@
 # Introduction
 
-The tools in this project help you yo more easily create and delete VMs in Azure. The commands are wrappers around the `az` command and use individual VM configuration files that define what the VM should be like in Azure. It requires and existing source disk image file (.vhd) to use as  a template disk image for the newly created VM. The new VM's disk image file will reside in a Container (Blob storage) in an Azure Storage Account.
+The tools in this project help you to more easily create and delete VMs in Azure. The commands are wrappers around the `az` command and use individual VM configuration files that define what the VM should be like in Azure. It requires and existing source disk image file (.vhd) to use as  a template disk image for the newly created VM. The new VM's disk image file will reside in a Container (Blob storage) in an Azure Storage Account.
 
 Additional tools that are useful to use in conjunction with these tools (also defined in the **https://github.com/roncterry/azure-course-tools** git repository).
 
@@ -20,7 +20,7 @@ This variable contains the name of the Azure region in which the VM is to be lau
 
 **RESOURCE_GROUP**
 
-This variable contains the name of the Resource Group that the VM will be a prt of.
+This variable contains the name of the Resource Group that the VM will be a part of.
 
 
 **STORAGE_ACCOUNT**
@@ -183,7 +183,7 @@ create-azure-vm.sh <VM_CONFIG_FILE>
 
 ## Intro:
 
-This command is used to delete a VM in Azure that was created/launched byt the `create-azure-vm.sh` script. It requires you to provide `vm-config.azvm` config file. 
+This command is used to delete a VM in Azure that was created/launched by the `create-azure-vm.sh` script. It requires you to provide `vm-config.azvm` config file. 
 
 
 

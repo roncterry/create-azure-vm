@@ -104,9 +104,9 @@ VM_DISK_SIZE=""
 # Create the OS disk as an ephemeral disk on the compute host.
 #
 # If set to TRUE then the OS disk is created on the compute host. This can 
-# improvide local disk performance and faster VM/VMSS reimage times.
+# improve local disk performance and faster VM/VMSS reimage times.
 #
-# If you are createing a new VM and want to keep the image in your image library
+# If you are creating a new VM and want to keep the image in your image library
 # then set this to FALSE.
 #
 # Options: TRUE,FALSE
@@ -138,10 +138,10 @@ AUTH_TYPE="password"
 
 # Username of the admin user in the VM
 #
-# This is the suer who's password will be set using the AMDIN_PASSWORD and will
+# This is the user who's password will be set using the AMDIN_PASSWORD and will
 # have SSH keys added to their ~/.ssh/authorized_keys file if set.
 #
-# This is the user you will log inot the VM as.
+# This is the user you will log into the VM as.
 #
 # Default: tux
 #
@@ -163,14 +163,14 @@ ADMIN_PASSWORD=""
 # This is a list of SSH public keys to append to the admin user's 
 # ~/.ssh/authorized_keys file.
 #
-# This will be used if AUTH_TYPE is set ot ssh or all.
+# This will be used if AUTH_TYPE is set to ssh or all.
 #
 SSH_KEY_LIST=""
 
 
 # Enable RDP access to Linux VMs
 #
-# This only applys to Linux VMs.
+# This only applies to Linux VMs.
 #
 # By default RDP is enabled by default for Windows VMs so changing this value for Windows VMs will have no effect. 
 #
@@ -179,7 +179,7 @@ ENABLE_RDP="true"
 
 # Enable SSH access to Windows VMs
 #
-# This only applys to Windows VMs.
+# This only applies to Windows VMs.
 #
 # By default SSH is enabled by default for Linux VMs so changing this value for Linux VMs will have no effect.
 #
