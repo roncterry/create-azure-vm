@@ -30,7 +30,12 @@ This variable contains the name of the Storage Account where the Storage Contain
 
 **STORAGE_CONTAINER_NAME**
 
-This variable the name of the Storage Container in the Storage Account in which the VM's disk image (.vhd file) will be created.
+This variable is the name of the Storage Container in the Storage Account in which the VM's disk image (.vhd file) will be created.
+
+
+**SOURCE_STORAGE_CONTAINER_NAME**
+
+This variable is the name of the Storage Container in which the source disk image (.vhd file) resides.
 
 
 **SOURCE_IMAGE_FILE**
