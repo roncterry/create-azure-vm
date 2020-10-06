@@ -25,9 +25,19 @@ STORAGE_ACCOUNT=""
 # The name of the storage container in which to create the new disk image (vhd) 
 # file (when not using ephemeral disks). 
 #
-# Default: vhds
+# Recommended Default: vhds
 #
-STORAGE_CONTAINER_NAME=""
+STORAGE_CONTAINER_NAME="vhds"
+
+
+# Name of Storage Container containing the source image
+#
+# The name of the storage container in which the source disk image (vhd) 
+# file resides. 
+#
+# Recommended Default: labmachine-images
+#
+SOURCE_STORAGE_CONTAINER_NAME="labmachine-images"
 
 
 # Source image file for the VM
@@ -52,7 +62,7 @@ SOURCE_IMAGE_FILE=""
 #
 # No default. This is a required value.
 #
-SOURCE_IMAGE_URI="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${STORAGE_CONTAINER_NAME}/${SOURCE_IMAGE_FILE}"
+SOURCE_IMAGE_URI="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${SOURCE_STORAGE_CONTAINER_NAME}/${SOURCE_IMAGE_FILE}"
 
 
 # OS Type running the VM
