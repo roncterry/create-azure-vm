@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Version: 1.1.2
-# Date: 2020-09-16
+# Version: 1.2.0
+# Date: 2020-10-16
 
 ######### Default Values #################
 DEFAULT_CLI_ARGS="--use-unmanaged-disk"
@@ -48,7 +48,10 @@ fi
 
 if [ -e ${1} ]
 then
-  source ${1}
+  CONFIG_FILE=${1}
+  EXE_PATH=$(dirname ${0})
+
+  source ${CONFIG_FILE}
 
 else
   echo -e "${RED}ERROR: The VM config file specified does not exist. Exiting.${NC}"
@@ -251,60 +254,90 @@ main() {
   echo -e "${LTBLUE}Creating VM:${NC}"
 
   TMP_OUTPUT_FILE="/tmp/create-azure-vm.output.$$"
+  TMP_ERROR_FILE="/tmp/create-azure-vm.error.$$"
   echo -e "${LTGREEN}COMMAND: ${GRAY}az vm create ${CLI_ARGS}${NC}"
-  az vm create ${CLI_ARGS} > ${TMP_OUTPUT_FILE} 2> /dev/null
-  echo
+  az vm create ${CLI_ARGS} > ${TMP_OUTPUT_FILE} 2> ${TMP_ERROR_FILE}
 
-  if [ -e ${TMP_OUTPUT_FILE} ]
-  then
-    FQDNS=$(grep "fqdns" ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
-    ID=$(grep id ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
-    POWER_STATE=$(grep powerState ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
-    MAC_ADDR=$(grep macAddress ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
-    PRIVATE_IP_ADDR=$(grep privateIpAddress ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
-    PUBLIC_IP_ADDR=$(grep publicIpAddress ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
-    ZONES=$(grep zones ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
- 
-    rm ${TMP_OUTPUT_FILE}
-  fi
+  case ${?} in
+    0)
+      if [ -e ${TMP_OUTPUT_FILE} ]
+      then
+        FQDNS=$(grep "fqdns" ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
+        ID=$(grep id ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
+        POWER_STATE=$(grep powerState ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
+        MAC_ADDR=$(grep macAddress ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
+        PRIVATE_IP_ADDR=$(grep privateIpAddress ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
+        PUBLIC_IP_ADDR=$(grep publicIpAddress ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
+        ZONES=$(grep zones ${TMP_OUTPUT_FILE} | cut -d \" -f 4)
+    
+        rm ${TMP_OUTPUT_FILE}
+        rm ${TMP_ERROR_FILE}
+        echo
+   
+        case ${OS_TYPE} in
+          linux)
+            REMOTE_ACCESS="SSH"
+            REMOTE_ACCESS_PORTS="22"
+            enable_rdp
+          ;;
+          windows)
+            REMOTE_ACCESS="RDP"
+            REMOTE_ACCESS_PORTS="3389"
+            enable_ssh
+          ;;
+        esac
+   
+        open_additional_ports
 
-  case ${OS_TYPE} in
-    linux)
-      REMOTE_ACCESS="SSH"
-      REMOTE_ACCESS_PORTS="22"
-      enable_rdp
+        echo -e "${LTBLUE}=======================================================================${NC}"
+        echo
+        echo -e "${LTBLUE}+----------------------------------------------------------------------${NC}"
+        echo -e "${LTBLUE}|                             VM Info:${NC}"
+        echo -e "${LTBLUE}+----------------------------------------------------------------------${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}VM Name:            ${GRAY}${VM_NAME}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}OS Type:            ${GRAY}${OS_TYPE}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Ephemeral OS Disk:  ${GRAY}${EPHEMERAL_OS_DISK}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}MAC Address:        ${GRAY}${MAC_ADDR}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Private IP Address: ${GRAY}${PRIVATE_IP_ADDR}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Open Ports:         ${GRAY}${REMOTE_ACCESS_PORTS} ${ADDITIONAL_OPEN_PORTS}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Region:             ${GRAY}${REGION}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Zones:              ${GRAY}${ZONES}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Resource Group:     ${GRAY}${RESOURCE_GROUP}${NC}"
+        echo -e "${LTBLUE}| "
+        echo -e "${LTBLUE}| ${ORANGE}You can access the VM using the following:${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Protocols:          ${GRAY}${REMOTE_ACCESS}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Public IP Address:  ${GRAY}${PUBLIC_IP_ADDR}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Username:           ${GRAY}${ADMIN_USERNAME}${NC}"
+        echo -e "${LTBLUE}| ${LTPURPLE}Password:           ${GRAY}${ADMIN_PASSWORD}${NC}"
+        echo -e "${LTBLUE}+----------------------------------------------------------------------${NC}"
+        echo
+      fi
     ;;
-    windows)
-      REMOTE_ACCESS="RDP"
-      REMOTE_ACCESS_PORTS="3389"
-      enable_ssh
+    *)
+      if [ -e ${TMP_ERROR_FILE} ]
+      then
+        ERROR_MSG=$(grep "message" ${TMP_ERROR_FILE} | cut -d \" -f 4)
+    
+        rm ${TMP_OUTPUT_FILE}
+        rm ${TMP_ERROR_FILE}
+
+        echo
+        echo -e "${RED}=======================================================================${NC}"
+        echo
+        echo -e "${RED}ERROR: ${ERROR_MSG}${NC}"
+        echo
+        echo -e "${RED}=======================================================================${NC}"
+        echo
+
+        sleep 2
+        echo -e "${LTBLUE}Cleaning up the failed VM's environment ...${NC}"
+        sleep 5
+        echo
+
+        bash ${EXE_PATH}/delete-azure-vm.sh ${1}
+      fi
     ;;
   esac
-
-  open_additional_ports
-
-  echo -e "${LTBLUE}=======================================================================${NC}"
-  echo
-  echo -e "${LTBLUE}+----------------------------------------------------------------------${NC}"
-  echo -e "${LTBLUE}|                             VM Info:${NC}"
-  echo -e "${LTBLUE}+----------------------------------------------------------------------${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}VM Name:            ${GRAY}${VM_NAME}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}OS Type:            ${GRAY}${OS_TYPE}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Ephemeral OS Disk:  ${GRAY}${EPHEMERAL_OS_DISK}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}MAC Address:        ${GRAY}${MAC_ADDR}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Private IP Address: ${GRAY}${PRIVATE_IP_ADDR}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Open Ports:         ${GRAY}${REMOTE_ACCESS_PORTS} ${ADDITIONAL_OPEN_PORTS}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Region:             ${GRAY}${REGION}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Zones:              ${GRAY}${ZONES}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Resource Group:     ${GRAY}${RESOURCE_GROUP}${NC}"
-  echo -e "${LTBLUE}| "
-  echo -e "${LTBLUE}| ${ORANGE}You can access the VM using the following:${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Protocols:          ${GRAY}${REMOTE_ACCESS}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Public IP Address:  ${GRAY}${PUBLIC_IP_ADDR}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Username:           ${GRAY}${ADMIN_USERNAME}${NC}"
-  echo -e "${LTBLUE}| ${LTPURPLE}Password:           ${GRAY}${ADMIN_PASSWORD}${NC}"
-  echo -e "${LTBLUE}+----------------------------------------------------------------------${NC}"
-  echo
 }
 
 ############################################################################
