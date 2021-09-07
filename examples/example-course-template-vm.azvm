@@ -47,7 +47,7 @@ SOURCE_STORAGE_CONTAINER_NAME="labmachine-images"
 #
 # No default. This is a required value.
 #
-SOURCE_IMAGE_FILE="openSUSE_Leap-15.2-desktop-8.0.2.fixed.vhd"
+SOURCE_IMAGE_FILE="openSUSE_Leap-15.2-desktop-8.0.2-disk.vhd"
 
 
 # Source image URI for the VM

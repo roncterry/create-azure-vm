@@ -165,7 +165,7 @@ ADMIN_USERNAME="tux"
 #
 # Default: d3faul7P@s5w0rd
 #
-ADMIN_PASSWORD="1qaz@WSX3edc"
+ADMIN_PASSWORD="d3faul7P@s5w0rd"
 
 
 # List of SSH private keys to add for the admin user
