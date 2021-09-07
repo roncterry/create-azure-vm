@@ -60,7 +60,7 @@ SOURCE_IMAGE_FILE=""
 #
 # FYI, This can also be found in the blobUri field of the image.
 #
-# No default. This is a required value.
+# The default value should be what you want.
 #
 SOURCE_IMAGE_URI="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${SOURCE_STORAGE_CONTAINER_NAME}/${SOURCE_IMAGE_FILE}"
 
