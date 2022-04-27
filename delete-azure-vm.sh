@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Version: 1.0.0
-# Date: 2020-05-21
+# Version: 1.1.0
+# Date: 2022-04-27
 
 ######### Default Values #################
 DEFAULT_CLI_ARGS=""
@@ -42,11 +42,13 @@ if [ -z ${1} ]
 then
   usage
   exit 0
+else
+  CONFIG_FILE=${1}
 fi
 
-if [ -e ${1} ]
+if [ -e ${CONFIG_FILE} ]
 then
-  source ${1}
+  source ${CONFIG_FILE}
 
   if [ -z ${REGION} ]
   then
@@ -99,7 +101,7 @@ get_vm_managed_disk_list() {
 }
 
 get_storage_account_key() {
-  export STORAGE_ACCOUNT_KEY="$(az storage account keys list --account-name ${STORAGE_ACCOUNT} -o table 2> /dev/null | grep key1 | awk '{ print $3 }')"
+  export STORAGE_ACCOUNT_KEY="$(az storage account keys list --account-name ${STORAGE_ACCOUNT} -o table 2> /dev/null | grep key1 | awk '{ print $4 }')"
 }
 
 delete_vm() {
@@ -157,6 +159,18 @@ delete_vm_vhd() {
   echo;echo
 }
 
+delete_vm_connection_info() {
+  echo -e "${LTBLUE}Deleting the VM's Connection Info File ...${NC}"
+  if [ -e $(dirname ${CONFIG_FILE})/${VM_NAME}-conneciton_info.txt ]
+  then
+    echo -e "${LTGREEN}COMMAND: ${GRAY} rm -f $(dirname ${CONFIG_FILE})/${VM_NAME}-connection_info.txt${NC}"
+    rm -f $(dirname ${CONFIG_FILE})/${VM_NAME}-connection_info.txt
+  else
+    echo "(File doesn't exist)"
+  fi
+  echo;echo
+}
+
 #############################################################################
 
 main() {
@@ -179,8 +193,9 @@ main() {
   delete_vm_public_ips
   delete_vm_nsg
   delete_vm_managed_disks
+  delete_vm_connection_info
 
-  if echo ${*} | grep "delete-vhd"
+  if echo ${*} | grep -q "delete-vhd"
   then
     delete_vm_vhd
   fi

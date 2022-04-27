@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Version: 1.2.0
-# Date: 2020-10-16
+# Version: 1.3.0
+# Date: 2022-04-27
 
 ######### Default Values #################
 DEFAULT_CLI_ARGS="--use-unmanaged-disk"
@@ -311,6 +311,12 @@ main() {
         echo -e "${LTBLUE}| ${LTPURPLE}Password:           ${GRAY}${ADMIN_PASSWORD}${NC}"
         echo -e "${LTBLUE}+----------------------------------------------------------------------${NC}"
         echo
+        echo "VM Name:            ${VM_NAME}" > $(dirname ${CONFIG_FILE})/${VM_NAME}-connection_info.txt
+        echo "Protocols:          ${REMOTE_ACCESS}" >> $(dirname ${CONFIG_FILE})/${VM_NAME}-connection_info.txt
+        echo "Public IP Address:  ${PUBLIC_IP_ADDR}" >> $(dirname ${CONFIG_FILE})/${VM_NAME}-connection_info.txt
+        echo "Username:           ${ADMIN_USERNAME}" >> $(dirname ${CONFIG_FILE})/${VM_NAME}-connection_info.txt
+        echo "Password:           ${ADMIN_PASSWORD}" >> $(dirname ${CONFIG_FILE})/${VM_NAME}-connection_info.txt
+        echo "" >> $(dirname ${CONFIG_FILE})/${VM_NAME}-connection_info.txt
       fi
     ;;
     *)
