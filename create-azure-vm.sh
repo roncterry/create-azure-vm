@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# Version: 1.3.0
-# Date: 2022-04-27
+# Version: 1.3.1
+# Date: 2022-05-25
 
 ######### Default Values #################
-DEFAULT_CLI_ARGS="--use-unmanaged-disk"
+DEFAULT_CLI_ARGS="--use-unmanaged-disk --public-ip-sku Standard"
 DEFAULT_OS_TYPE="linux"
 DEFAULT_NAME="MyVM"
 DEFAULT_SIZE="Standard_D4s_v3"
