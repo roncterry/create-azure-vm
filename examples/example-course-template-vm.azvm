@@ -8,12 +8,21 @@ REGION="westus"
 
 # Resource Group in which to create the VM
 #
+# Note: The new VM must reside in the same resource group that the
+#       VM source base image resides in. If it doesn't you will need to
+#       make a copy of the source base VM disk image (and potentially a new
+#       storage account and container to place it in) in the resource group
+#       where you are creating the new VM.
+#
 # No default. This is a required value.
 #
 RESOURCE_GROUP="Labmachine_Image"
 
 
 # Storage account where new disk will be created
+#
+# Note: This must be the same storage account where the source base 
+#       VM disk image resides.
 #
 # No default. If not using an ephemeral disk this is a required value.
 #
@@ -23,7 +32,8 @@ STORAGE_ACCOUNT="labmachineimages"
 # Name of Storage Container
 #
 # The name of the storage container in which to create the new disk image (vhd) 
-# file (when not using ephemeral disks). 
+# file (when not using ephemeral disks). This must reside in the same resource 
+# group as the source base VM disk image.
 #
 # Recommended Default: vhds
 #
@@ -33,7 +43,8 @@ STORAGE_CONTAINER_NAME="vhds"
 # Name of Storage Container containing the source image
 #
 # The name of the storage container in which the source disk image (vhd) 
-# file resides. 
+# file resides.  This must be in the same resource group and storage account
+# as the new VM being created.
 #
 # Recommended Default: labmachine-images
 #
@@ -44,6 +55,10 @@ SOURCE_STORAGE_CONTAINER_NAME="labmachine-images"
 #
 # This is the vhd image file used to create the VM. This value is 
 # used in the SOURCE_IMAGE_URI variable below.
+#
+# Note: This disk image must reside in the same resource group and 
+#       storage account as the new VM being created.
+#       It can reside in a different container in that storage account.
 #
 # No default. This is a required value.
 #
@@ -78,7 +93,7 @@ OS_TYPE=""
 #
 # Default: MyVM
 #
-VM_NAME="example-course-template"
+VM_NAME="EXAMPLE-COURSE-template"
 
 
 # VM size to use when creating the VM
